@@ -38,17 +38,23 @@ public class Fight : MonoBehaviour
         var character = _me as Player; //!!!!!!!!!!!!!
         if (character != null && character.Mana >= _ability1ManaCost)
         {
-            character.ManaChange(-20);
+            StartCoroutine(character.ShowStatusText("Ability 1"));
+            character.ManaChange(_ability1ManaCost);
             _me.AnimateMe("Hit");
             _victimToFight.Damage(_me.AttackForce);
         }
-        
+
     }
 
     private void Ability2()
     {
-        (_me as Player).ManaChange(-30); // предусмотреть несрабатывание абилки при недостатке маны
-        StartCoroutine(AbilityTimer());
+        var character = _me as Player;
+        if (character != null && character.Mana >= _ability2ManaCost)
+        {
+            StartCoroutine(character.ShowStatusText("Attack speed decreased, attack force increased"));
+            character.ManaChange(_ability2ManaCost);
+            StartCoroutine(AbilityTimer());
+        }
     }
 
     private IEnumerator AbilityTimer()
@@ -87,8 +93,6 @@ public class Fight : MonoBehaviour
             _me.AnimateMe("Hit");
             _victimToFight.Damage(_me.AttackForce);
             yield return null;
-
-
             _me.HealthRecover();
         }
     }
