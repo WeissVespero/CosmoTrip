@@ -32,6 +32,7 @@ public class FightManager : MonoBehaviour
         for (int i = 0; i < _spawnPlaces.Length; i++)
         {
             var enemy = Instantiate(_enemyPrefab, _spawnPlaces[i]);
+            enemy.name = $"Enemy{i}";
             _enemies[i] = enemy.GetComponent<Enemy>();
             _enemyFights[i] = enemy.GetComponent<Fight>();
         }
